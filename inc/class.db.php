@@ -5,14 +5,23 @@
 	// <electricnet@gmail.com>
 	
 	class DB {
-		public  $res    = null;
-		public  $type   = "";
-		public  $on     = false;
-		public  $conn   = false;
-		public  $mysqli = false;
-		private $config = null;
+		public  $res    			= null;
+		public  $type   			= "";
+		public  $on     			= false;
+		public  $conn   			= false;
+		public  $mysqli 			= false;
+		private $config 			= null;
+		private static $INSTANCE 	= null;
 		
-		public function __construct($type, $config){
+		public static function connection() {
+			if(self::$INSTANCE == null) {
+				$INSTANCE = new DB("mysql", Tweetnest::$config['db']);
+			}
+			
+			return $INSTANCE;
+		}
+		
+		private function __construct($type, $config){
 			if(in_array(strtolower(trim($type)), array("mysql" /* more to be added later */))){
 				$this->type = strtolower(trim($type));
 				if(!empty($config['hostname']) && !empty($config['username']) && !empty($config['password']) && !empty($config['database'])){
