@@ -1,0 +1,18 @@
+<h1>About this Application</h1>
+TweetNest is a browsable, searchable and easily customizable archive and backup for your tweets, made in PHP. It runs on a web server. It requires the following:
+
+* PHP 5.2 or higher (or 5.1 with the PECL JSON module installed)
+* MySQL 4.1 or higher
+
+<h1>How to Install</h1>
+To figure out how to install it, please point your browser to:
+
+<a href="http://pongsocket.com/tweetnest/">http://pongsocket.com/tweetnest/</a>
+
+And go to the "Installation" section.
+
+<h1>About the Authors</h1>
+TweetNest was originally developed by Andy Graulund. This version is a (nearly) complete rewrite of the codebase by Ryan LeFevre to make it object-oriented and easier to work with, extend, and improve.
+
+Andy Graulund - <a href="http://pongsocket.com">pongsocket.com</a>
+Ryan LeFevre - <a href="http://meltingice.net">meltingice.net</a>
