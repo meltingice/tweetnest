@@ -115,4 +115,3 @@
 		// profile_sidebar_border_color
 		// .. or any one of the other variable names seen above
 	);
-	global $config;

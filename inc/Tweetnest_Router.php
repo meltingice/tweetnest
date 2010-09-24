@@ -2,18 +2,25 @@
 
 class Router {
 	public static $PAGE = 'index';
+	public static $PARAMS = array();
 	private static $routes = array(
-		'sort' => '^\/sort\/?$',
-		'favorites' => '^\/favorites\/?$',
-		'search' => '^\/search\/?$'
-		'month' => '^\/([0-9]+)\/([0-9]+)\/?$',
-		'day' => '^\/([0-9]+)\/([0-9]+)\/([0-9]+)\/?$'
+		'index' => '',
+		'sort' => '/^sort\/?$',
+		'favorites' => '/^favorites\/?$/',
+		'search' => '/^search\/?$/',
+		'month' => '/^([0-9]+)\/([0-9]+)\/?$/',
+		'day' => '/^([0-9]+)\/([0-9]+)\/([0-9]+)\/?$/'
 	);
+	
+	private static $active_controller;
 	
 	public static function run() {
 		self::determine_page();
+		self::determine_params();
 		
-		
+		$controller = ucfirst(self::$PAGE).'_Controller';
+		self::$active_controller = new $controller();
+		self::$active_controller->load();
 	}
 	
 	private static function determine_page() {
@@ -21,6 +28,8 @@ class Router {
 			return;
 		} else {
 			$uri = $_GET['tn_uri'];
+			if($uri == "" || $uri == "/") { return; } // index page
+			
 			foreach(self::$routes as $page => $regex) {
 				if(preg_match($regex, $uri)) {
 					self::$PAGE = $page;
@@ -28,6 +37,13 @@ class Router {
 				}
 			}
 		}
+	}
+	
+	private static function determine_params() {
+		if(self::$PAGE == 'index') return;
+		
+		preg_match_all(self::$routes[self::$PAGE], $_GET['tn_uri'], $matches);
+		self::$PARAMS = $matches[1];
 	}
 	
 }

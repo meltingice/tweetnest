@@ -41,7 +41,7 @@ class Tweetnest {
 	}
 	
 	private static function load_config() {
-		require dirname(__FILE__).'/config.php';
+		include dirname(__FILE__).'/config.php';
 		self::$config = $config;
 	}
 	
@@ -84,6 +84,10 @@ class Tweetnest {
 			include FULL_INC_PATH.'/class.'.strtolower($class).'.php';
 		} elseif(file_exists(FULL_INC_PATH."/Tweetnest_$class.php")) {
 			include FULL_INC_PATH."/Tweetnest_$class.php";
+		} elseif(preg_match("/([A-Za-z0-9]+)_Controller/", $class)) {
+			if(file_exists(FULL_INC_PATH."/controllers/$class.php")) {
+				include FULL_INC_PATH."/controllers/$class.php";
+			}
 		}
 	}
 	
