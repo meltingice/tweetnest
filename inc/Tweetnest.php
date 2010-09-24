@@ -23,6 +23,14 @@ class Tweetnest {
 		Router::run();
 	}
 	
+	public static function load_css() {
+		self::load_config();
+		self::init();
+		self::set_runtime_data();
+		
+		self::$user = User::load_active_user();
+	}
+	
 	private static function check_for_requirements() {
 		// Check for cURL
 		if(!extension_loaded("curl")){

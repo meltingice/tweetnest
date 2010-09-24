@@ -1,11 +1,9 @@
 <?php
 	error_reporting(0);
-	if($returnCSS){
-		ob_start();
-	} else {
-		require "../../inc/preheader.php";
-		header("Content-type: text/css");
-	}
+	header("Content-type: text/css");
+	
+	include '../../inc/Tweetnest.php';
+	Tweetnest::load_css();
 ?>
 /*
  * TWEET ARCHIVE
@@ -16,8 +14,8 @@
 
 body {
 	margin: 0;
-	color: <?php echo css("text_color"); ?>;
-	background-color: <?php echo css("content_background_color"); ?>;
+	color: <?php echo Util::css("text_color"); ?>;
+	background-color: <?php echo Util::css("content_background_color"); ?>;
 	font-family: "Helvetica Neue", Helvetica, sans-serif;
 	font-size: x-small;
 	voice-family: "\"}\"";
@@ -32,11 +30,11 @@ strong { font-weight: bold;   }
 em     { font-style:  italic; }
 
 a {
-	color: <?php echo css("link_color"); ?>;
+	color: <?php echo Util::css("link_color"); ?>;
 }
 
 a:hover, a.hoverin {
-	color: <?php echo css("link_color_hover"); ?>;
+	color: <?php echo Util::css("link_color_hover"); ?>;
 }
 
 a img {
@@ -44,7 +42,7 @@ a img {
 }
 
 h1, h2, h3, h4, h5, h6 {
-	color: <?php echo css("page_title_color"); ?>;
+	color: <?php echo Util::css("page_title_color"); ?>;
 }
 
 #content {
@@ -55,11 +53,11 @@ h1, h2, h3, h4, h5, h6 {
 
 #top #author {
 	position: relative;
-	background-color: <?php echo css("top_background_color"); ?>;
-	background-image: <?php echo css("top_background_image"); ?>;
-	background-repeat: <?php echo css("top_background_image_tile"); ?>;
-	background-position: <?php echo css("top_background_image_position"); ?>;
-	color: <?php echo css("top_text_color"); ?>;
+	background-color: <?php echo Util::css("top_background_color"); ?>;
+	background-image: <?php echo Util::css("top_background_image"); ?>;
+	background-repeat: <?php echo Util::css("top_background_image_tile"); ?>;
+	background-position: <?php echo Util::css("top_background_image_position"); ?>;
+	color: <?php echo Util::css("top_text_color"); ?>;
 	padding: 20px 46px;
 	min-height: 52px;
 }
@@ -76,7 +74,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #top #author h2, #top #author h2 a {
-	color: <?php echo css("top_screenname_color"); ?>;
+	color: <?php echo Util::css("top_screenname_color"); ?>;
 	text-decoration: none;
 }
 
@@ -85,27 +83,27 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #top #author h2 strong {
-	color: <?php echo css("top_realname_color"); ?>;
+	color: <?php echo Util::css("top_realname_color"); ?>;
 }
 
 #top #author h2 img {
 	position: absolute;
 	top: 20px;
 	left: 46px;
-	border: 2px solid <?php echo css("top_image_border_color"); ?>;
-	background-color: <?php echo css("top_image_border_color"); ?>;
+	border: 2px solid <?php echo Util::css("top_image_border_color"); ?>;
+	background-color: <?php echo Util::css("top_image_border_color"); ?>;
 }
 
 #top #info {
 	position: relative;
 	font-size: 85%;
-	background-color: <?php echo css("top_bar_background_color"); ?>;
-	color: <?php echo css("top_bar_text_color"); ?>;
+	background-color: <?php echo Util::css("top_bar_background_color"); ?>;
+	color: <?php echo Util::css("top_bar_text_color"); ?>;
 	overflow: hidden;
 }
 
 #top #info a, #top #info strong {
-	color: <?php echo css("top_bar_highlight_color"); ?>;
+	color: <?php echo Util::css("top_bar_highlight_color"); ?>;
 }
 
 #top #info p {
@@ -130,8 +128,8 @@ h1, h2, h3, h4, h5, h6 {
 
 #top #info p.follow a {
 	display: block;
-	background-color: <?php echo css("top_follow_background_color"); ?>;
-	color: <?php echo css("top_follow_text_color"); ?>;
+	background-color: <?php echo Util::css("top_follow_background_color"); ?>;
+	color: <?php echo Util::css("top_follow_text_color"); ?>;
 	font-weight: bold;
 	text-decoration: none;
 	border-radius: 5px;
@@ -143,7 +141,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 #top #info p.follow a:hover {
-	background-color: <?php echo css("top_follow_background_color_hover"); ?>;
+	background-color: <?php echo Util::css("top_follow_background_color_hover"); ?>;
 }
 
 #primary {
@@ -164,7 +162,7 @@ h1, h2, h3, h4, h5, h6 {
 .tweet {
 	clear: left;
 	overflow: hidden;
-	border: 1px solid <?php echo css("tweet_border_color"); ?>;
+	border: 1px solid <?php echo Util::css("tweet_border_color"); ?>;
 	border-width: 1px 0;
 	margin: 0 0 -1px;
 	padding: 15px 0;
@@ -197,40 +195,40 @@ h1, h2, h3, h4, h5, h6 {
 
 p.meta {
 	font-size: 85%;
-	color: <?php echo css("tweet_meta_text_color"); ?>;
+	color: <?php echo Util::css("tweet_meta_text_color"); ?>;
 	margin: .4em 0 0;
 }
 
 p.meta a {
 	text-decoration: none;
-	color: <?php echo css("tweet_meta_text_color"); ?>;
+	color: <?php echo Util::css("tweet_meta_text_color"); ?>;
 }
 
 p.meta a:hover {
 	text-decoration: underline;
-	color: <?php echo css("tweet_meta_link_color"); ?>;
+	color: <?php echo Util::css("tweet_meta_link_color"); ?>;
 }
 
 .tweet .pic {
 	float: left;
 	display: block;
 	margin: 0 15px 5px 0;
-<?php if($config['style']['tweet_image_border']){ ?>	border-bottom: 1px solid <?php echo css("tweet_image_shadow_color"); ?>;<?php echo "\n"; } ?>
+<?php if($config['style']['tweet_image_border']){ ?>	border-bottom: 1px solid <?php echo Util::css("tweet_image_shadow_color"); ?>;<?php echo "\n"; } ?>
 }
 
 .tweet .pic img {
 	display: block;
-<?php if($config['style']['tweet_image_border']){ ?>	border: 4px solid <?php echo css("tweet_image_border_color"); ?>;<?php echo "\n"; } ?>
+<?php if($config['style']['tweet_image_border']){ ?>	border: 4px solid <?php echo Util::css("tweet_image_border_color"); ?>;<?php echo "\n"; } ?>
 	max-width: 150px;
 	max-height: 150px;
 }
 
 <?php if($config['style']['tweet_image_border']){ ?>.tweet a.pic:hover, .tweet a.pic.hoverin {
-	border-color: <?php echo css("tweet_image_shadow_color_hover"); ?>;
+	border-color: <?php echo Util::css("tweet_image_shadow_color_hover"); ?>;
 }<?php echo "\n"; } ?>
 
 <?php if($config['style']['tweet_image_border']){ ?>.tweet a.pic:hover img, .tweet a.pic.hoverin img {
-	border-color: <?php echo css("tweet_image_border_color_hover"); ?>;
+	border-color: <?php echo Util::css("tweet_image_border_color_hover"); ?>;
 }<?php echo "\n"; } ?>
 
 #search {
@@ -241,10 +239,10 @@ p.meta a:hover {
 }
 
 #search input {
-	border: 1px solid <?php echo css("search_border_color"); ?>;
-	background: <?php echo css("search_background_color"); ?> url(search.png) no-repeat 7px 5px;
+	border: 1px solid <?php echo Util::css("search_border_color"); ?>;
+	background: <?php echo Util::css("search_background_color"); ?> url(search.png) no-repeat 7px 5px;
 	font: 85% "Helvetica Neue", Helvetica, sans-serif;
-	color: <?php echo css("search_text_color"); ?>;
+	color: <?php echo Util::css("search_text_color"); ?>;
 	padding: 3px 7px 3px 24px;
 	border-radius: 12px;
 	-moz-border-radius: 12px;
@@ -254,7 +252,7 @@ p.meta a:hover {
 }
 
 #search input.empty {
-	color: <?php echo css("search_placeholder_text_color"); ?>;
+	color: <?php echo Util::css("search_placeholder_text_color"); ?>;
 }
 
 #sorter {
@@ -263,14 +261,14 @@ p.meta a:hover {
 	right: 0;
 	text-align: right;
 	font-size: 72%;
-	color: <?php echo css("tweet_meta_text_color"); ?>;
+	color: <?php echo Util::css("tweet_meta_text_color"); ?>;
 }
 
 #sorter a {
-	background-color: <?php echo css("months_background_color"); ?>;
-	color: <?php echo css("months_text_color"); ?>;
+	background-color: <?php echo Util::css("months_background_color"); ?>;
+	color: <?php echo Util::css("months_text_color"); ?>;
 	padding: 4px 7px;
-	border: 1px solid <?php echo css("months_border_color"); ?>;
+	border: 1px solid <?php echo Util::css("months_border_color"); ?>;
 	border-width: 1px 0;
 	text-decoration: none;
 }
@@ -301,7 +299,7 @@ p.meta a:hover {
 }
 
 #sorter a.selected {
-	background-color: <?php echo css("months_background_color_hover"); ?>;
+	background-color: <?php echo Util::css("months_background_color_hover"); ?>;
 	font-weight: bold;
 }
 
@@ -329,27 +327,27 @@ p.meta a:hover {
 .truncated {
 	margin-top: 25px;
 	font-size: 118%;
-	color: <?php echo css("tweet_meta_text_color"); ?>;
+	color: <?php echo Util::css("tweet_meta_text_color"); ?>;
 }
 
 .truncated strong {
-	color: <?php echo css("text_color"); ?>;
+	color: <?php echo Util::css("text_color"); ?>;
 }
 
 ul#months, #months ul {
 	padding: 0;
 	list-style-type: none;
-	border-top: 1px solid <?php echo css("months_border_color"); ?>;
+	border-top: 1px solid <?php echo Util::css("months_border_color"); ?>;
 }
 
 #months li a {
 	display: block;
 	position: relative;
-	border-bottom: 1px solid <?php echo css("months_border_color"); ?>;
+	border-bottom: 1px solid <?php echo Util::css("months_border_color"); ?>;
 	margin: 0;
 	padding: 5px 10px;
-	background-color: <?php echo css("months_background_color"); ?>;
-	color: <?php echo css("months_text_color"); ?>;
+	background-color: <?php echo Util::css("months_background_color"); ?>;
+	color: <?php echo Util::css("months_text_color"); ?>;
 	text-decoration: none;
 }
 
@@ -359,24 +357,24 @@ ul#months, #months ul {
 }
 
 #months li a .m span.b {
-	color: <?php echo css("months_number_color"); ?>;
+	color: <?php echo Util::css("months_number_color"); ?>;
 }
 
 #months li a .n {
 	position: absolute;
 	right: 10px;
-	color: <?php echo css("months_number_color"); ?>;
+	color: <?php echo Util::css("months_number_color"); ?>;
 	z-index: 2;
 }
 
 #months li a .n strong {
-	color: <?php echo css("months_highlighted_number_color"); ?>;
+	color: <?php echo Util::css("months_highlighted_number_color"); ?>;
 }
 
 #months li a .p {
 	display: block;
 	position: absolute;
-	background-color: <?php echo css("months_graph_color"); ?>;
+	background-color: <?php echo Util::css("months_graph_color"); ?>;
 	top: 0;
 	left: 0;
 	bottom: 0;
@@ -385,16 +383,16 @@ ul#months, #months ul {
 
 #months li a:hover {
 	text-decoration: none;
-	background-color: <?php echo css("months_background_color_hover"); ?>;
+	background-color: <?php echo Util::css("months_background_color_hover"); ?>;
 }
 
 #months li a:hover .p {
-	background-color: <?php echo css("months_graph_color_hover"); ?>;
+	background-color: <?php echo Util::css("months_graph_color_hover"); ?>;
 }
 
 #months li a:hover .m {
 	text-decoration: underline;
-	color: <?php echo css("months_text_color_hover"); ?>;
+	color: <?php echo Util::css("months_text_color_hover"); ?>;
 }
 
 #months li a:hover .ms {
@@ -406,46 +404,46 @@ ul#months, #months ul {
 }
 
 #months li.highlighted a {
-	background-color: <?php echo css("months_highlighted_background_color"); ?>;
+	background-color: <?php echo Util::css("months_highlighted_background_color"); ?>;
 }
 
 #months li.highlighted a .p {
-	background-color: <?php echo css("months_highlighted_graph_color"); ?>;
+	background-color: <?php echo Util::css("months_highlighted_graph_color"); ?>;
 }
 
 #months li.highlighted a .m {
-	color: <?php echo css("months_highlighted_text_color"); ?>;
+	color: <?php echo Util::css("months_highlighted_text_color"); ?>;
 }
 
 #months li.selected a {
-	background-color: <?php echo css("months_selected_background_color"); ?>;
+	background-color: <?php echo Util::css("months_selected_background_color"); ?>;
 	border-bottom-width: 0;
 	padding-bottom: 6px;
-	color: <?php echo css("months_selected_text_color"); ?>;
+	color: <?php echo Util::css("months_selected_text_color"); ?>;
 }
 
 #months li.selected a .m, #months li.selected a:hover .m, #months li.selected a .n strong, #months li.selected a:hover .n strong {
-	color: <?php echo css("months_selected_text_color"); ?>;
+	color: <?php echo Util::css("months_selected_text_color"); ?>;
 }
 
 #months li.selected a .p, #months li.selected a:hover .p {
-	background-color: <?php echo css("months_selected_graph_color"); ?>;
+	background-color: <?php echo Util::css("months_selected_graph_color"); ?>;
 }
 
 #months li.selected a .n, #months li.selected a:hover .n {
-	color: <?php echo css("months_selected_number_color"); ?>;
+	color: <?php echo Util::css("months_selected_number_color"); ?>;
 }
 
 #months li.selected {
 	margin-left: -8px;
 	padding-left: 8px;
-	background: <?php echo css("months_selected_graph_color"); ?> url(pointmask.png) no-repeat left center;
+	background: <?php echo Util::css("months_selected_graph_color"); ?> url(pointmask.png) no-repeat left center;
 }
 
 #months li.meta {
 	margin: 10px 0 0;
 	padding: 5px 10px;
-	color: <?php echo css("tweet_meta_text_color"); ?>;
+	color: <?php echo Util::css("tweet_meta_text_color"); ?>;
 	font-size: 85%;
 }
 
@@ -492,8 +490,8 @@ ul#months, #months ul {
 	display: block;
 	position: relative;
 	z-index: 1;
-	background-color: <?php echo css("days_graph_color"); ?>;
-	color: <?php echo css("days_selected_text_color"); ?>;
+	background-color: <?php echo Util::css("days_graph_color"); ?>;
+	color: <?php echo Util::css("days_selected_text_color"); ?>;
 }
 
 #days .d .p .r, #days .d .p .rt {
@@ -501,11 +499,11 @@ ul#months, #months ul {
 }
 
 #days .d .p .r {
-	background-color: <?php echo css("days_graph_replies_color"); ?>;
+	background-color: <?php echo Util::css("days_graph_replies_color"); ?>;
 }
 
 #days .d .p .rt {
-	background-color: <?php echo css("days_graph_retweets_color"); ?>;
+	background-color: <?php echo Util::css("days_graph_retweets_color"); ?>;
 }
 
 #days .d .p .n {
@@ -519,19 +517,19 @@ ul#months, #months ul {
 	position: relative;
 	z-index: 3;
 	display: block;
-	color: <?php echo css("days_date_color"); ?>;
+	color: <?php echo Util::css("days_date_color"); ?>;
 	font-size: 85%;
 	padding: 5px 0;
 	margin: 3px 0 0;
 }
 
 #days .d .mm {
-	background-color: <?php echo css("days_weekend_color"); ?>;
+	background-color: <?php echo Util::css("days_weekend_color"); ?>;
 }
 
 #days .d .ms {
-	background: <?php echo css("days_selected_color"); ?> url(pointdmask.png) no-repeat center bottom;
-	color: <?php echo css("days_selected_text_color"); ?>;
+	background: <?php echo Util::css("days_selected_color"); ?> url(pointdmask.png) no-repeat center bottom;
+	color: <?php echo Util::css("days_selected_text_color"); ?>;
 	font-weight: bold;
 	padding-bottom: 15px; /* usual 5px + 10px */
 	margin-bottom: -10px;
@@ -539,7 +537,7 @@ ul#months, #months ul {
 
 #days .d .z {
 	position: relative;
-	color: <?php echo css("days_zero_color"); ?>;
+	color: <?php echo Util::css("days_zero_color"); ?>;
 	z-index: 2;
 }
 
@@ -547,22 +545,17 @@ ul#months, #months ul {
 	clear: both;
 	margin: 40px 0 20px;
 	padding: 20px 46px 0;
-	border-top: 1px solid <?php echo css("footer_border_color"); ?>;
+	border-top: 1px solid <?php echo Util::css("footer_border_color"); ?>;
 	font-size: 85%;
-	color: <?php echo css("footer_text_color"); ?>;
+	color: <?php echo Util::css("footer_text_color"); ?>;
 }
 
 #footer a {
-	color: <?php echo css("footer_text_color"); ?>;
+	color: <?php echo Util::css("footer_text_color"); ?>;
 	text-decoration: none;
 }
 
 #footer a:hover {
-	color: <?php echo css("footer_link_color"); ?>;
+	color: <?php echo Util::css("footer_link_color"); ?>;
 	text-decoration: underline;
 }
-<?php
-	if($returnCSS){
-		$css = ob_get_clean();
-	}
-?>
