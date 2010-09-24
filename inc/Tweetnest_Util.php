@@ -60,4 +60,21 @@ class Util {
 			$str) : $str;
 	}
 	
+	public static function parse_tweet($tweet) {
+		$serialized = array(
+			'extra',
+			'coordinates',
+			'geo',
+			'place'
+		);
+		
+		foreach($serialized as $key) {
+			if(isset($tweet[$key])) {
+				$tweet[$key] = unserialize($tweet[$key]);
+			}
+		}
+		
+		return $tweet;
+	}
+	
 }

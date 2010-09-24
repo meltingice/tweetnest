@@ -58,17 +58,17 @@ class Tweetnest {
 		define('FULL_INC_PATH', $fPath.'/inc');
 		
 		/* Set and define timezone settings */
-		date_default_timezone_set($config['timezone']);
-		define("DTP", $config['db']['table_prefix']);
+		date_default_timezone_set(self::$config['timezone']);
+		define("DTP", self::$config['db']['table_prefix']);
 		
 		/* Set database time offset */
 		$db = DB::connection();
 		$result = $db->query("SELECT TIME_FORMAT(NOW() - UTC_TIMESTAMP(), '%H%i') AS `diff`");
 		$dbtR = $db->fetch($result);
-		$dbOffset          = date("Z") - ($dbtR['diff'] * 36); if(!is_numeric($dbOffset)){ $dbOffset = 0; }
+		$dbOffset = date("Z") - ($dbtR['diff'] * 36); if(!is_numeric($dbOffset)){ $dbOffset = 0; }
 		
 		// Explicit positivity/negativity
-		$dbOffset          = $dbOffset >= 0 ? "+" . $dbOffset : $dbOffset; 
+		$dbOffset = $dbOffset >= 0 ? "+" . $dbOffset : $dbOffset; 
 		define("DB_OFFSET", $dbOffset);
 		
 		define("PST_GZIP", (substr_count($_SERVER['HTTP_ACCEPT_ENCODING'], "gzip") > 0));
