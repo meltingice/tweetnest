@@ -46,4 +46,8 @@ class Router {
 		self::$PARAMS = $matches[1];
 	}
 	
+	public static function is_index() {
+		return (self::$PAGE == 'index');
+	}
+	
 }
