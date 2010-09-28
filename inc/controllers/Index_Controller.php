@@ -7,8 +7,7 @@ class Index_Controller extends Controller {
 		$tweets = Tweet::load_index_tweets();
 		$user = Tweetnest::$user;
 		
-		$months = sidebar::months($total_tweets);
-		
+		$months = visual::months($total_tweets);
 		$sidebar_data = array(
 			'months' => $months,
 			'total_tweets' => $total_tweets
@@ -23,6 +22,7 @@ class Index_Controller extends Controller {
 		);
 		
 		$page = $this->render('index', $page_data);
+		
 		$template_data = array(
 			'page_title' => "Tweets by @{$user->screenname}",
 			'user' => $user, 

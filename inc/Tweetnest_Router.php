@@ -17,7 +17,7 @@ class Router {
 	public static function run() {
 		self::determine_page();
 		self::determine_params();
-		
+
 		$controller = ucfirst(self::$PAGE).'_Controller';
 		self::$active_controller = new $controller();
 		self::$active_controller->load();
@@ -29,8 +29,8 @@ class Router {
 		} else {
 			$uri = $_GET['tn_uri'];
 			if($uri == "" || $uri == "/") { return; } // index page
-			
-			foreach(self::$routes as $page => $regex) {
+
+			foreach(array_slice(self::$routes, 1) as $page => $regex) {
 				if(preg_match($regex, $uri)) {
 					self::$PAGE = $page;
 					return;
@@ -43,7 +43,9 @@ class Router {
 		if(self::$PAGE == 'index') return;
 		
 		preg_match_all(self::$routes[self::$PAGE], $_GET['tn_uri'], $matches);
-		self::$PARAMS = $matches[1];
+		foreach(array_slice($matches, 1) as $match) {
+			self::$PARAMS[] = $match[0];
+		}
 	}
 	
 	public static function is_index() {
