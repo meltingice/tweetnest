@@ -5,7 +5,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" /> 
 	<meta name="description" content="An archive of all tweets written by <?=$user->realname?>." /> 
 	<meta name="author" content="<?=$user->realname?>" /> 
-	<link rel="stylesheet" href="styles/streamlined/styles.css.php" type="text/css" /> 
+	<link rel="stylesheet" href="<?=PATH?>/styles/streamlined/styles.css.php" type="text/css" /> 
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script> 
 	<script type="text/javascript" src="http://platform.twitter.com/anywhere.js?id=J9CvKf1M1QfBxD7l4dbU9w&amp;v=1"></script> 
 	<script type="text/javascript" src="tweets.js"></script> 

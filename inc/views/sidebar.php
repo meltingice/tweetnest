@@ -7,7 +7,7 @@
 	<li class="fav"><a href="<?=PATH?>/favorites"><span class="m">Favorites</span></a></li>
 	<? foreach($months as $month): ?>
 	<li>
-		<a href="/<?=$month['year']?>/<?=$month['month']?>">
+		<a href="<?=PATH?>/<?=$month['year']?>/<?=$month['month']?>">
 		<span class="m"><?=$month['date']?></span>
 		<span class="n"> <?=$month['tweets']?></span>
 		<span class="p" style="width:<?=$month['percent']?>%"></span>

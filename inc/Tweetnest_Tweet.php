@@ -20,6 +20,31 @@ class Tweet {
 		return $tweets;
 	}
 	
+	public static function load_month_tweets() {
+		$db = DB::connection();
+		
+		// This data must be numeric because of the router regex
+		// so no need to escape it.
+		$year = Router::$PARAMS[0];
+		$month = Router::$PARAMS[1];
+		
+		$q = $db->query(
+			"SELECT
+				`".DTP."tweets`.*
+			FROM `".DTP."tweets`
+			WHERE
+				YEAR(FROM_UNIXTIME(`time`" . DB_OFFSET . ")) = '" . $year . "' AND
+				MONTH(FROM_UNIXTIME(`time`" . DB_OFFSET . ")) = '" . $month . "'
+			ORDER BY `".DTP."tweets`.`time` DESC");
+		
+		$tweets = array();
+		while($data = $db->fetch($q)) {
+			$tweets[] = new Tweet(Util::parse_tweet($data));
+		}
+		
+		return $tweets;
+	}
+	
 	public function __construct($tweet_data) {
 		foreach($tweet_data as $key=>$var) {
 			$this->$key = $var;

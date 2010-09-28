@@ -57,19 +57,26 @@ class visual {
 				MONTH(FROM_UNIXTIME(`time`" . DB_OFFSET . ")) = '$month'
 			GROUP BY y, m, d, `type`
 			ORDER BY y ASC, m ASC, d ASC, `type` ASC";
-			echo $query; exit;
 		
 		$q = $db->query($query);
+		
+		$days   = array(); $max = 0; $total = 0;
 		while($r = $db->fetch($q)){
 			if(!array_key_exists($r['d'], $days)){
 				$days[$r['d']] = array("total" => 0);
 			}
 			$days[$r['d']]['total'] += $r['c'];
-			$days[$r['d']]['c' . $r['type']] = $r['c'];
+			$days[$r['d']]['types'][$r['type']] = $r['c'];
 			if($days[$r['d']]['total'] > $max){ $max = $days[$r['d']]['total']; }
 			$total += $r['c'];
 		}
 		
+		foreach($days as $i=>$day) {
+			$day['percent'] = round(($day['total'] / $max), 2);
+			$days[$i] = $day;
+		}
+		
+		return $days;
 	}
 	
 	public static function is_active_date($month, $year) {
