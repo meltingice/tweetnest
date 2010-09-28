@@ -5,12 +5,21 @@ class Index_Controller extends Controller {
 	public function load() {
 		
 		$tweets = Tweet::load_index_tweets();
-		
 		$user = Tweetnest::$user;
+		
+		$months = sidebar::months($total_tweets);
+		
+		$sidebar_data = array(
+			'months' => $months,
+			'total_tweets' => $total_tweets
+		);
+		
+		$sidebar = $this->render('sidebar', $sidebar_data);
 		
 		$page_data = array(
 			'tweets' => $tweets,
-			'user' => $user
+			'user' => $user,
+			'sidebar' => $sidebar
 		);
 		
 		$page = $this->render('index', $page_data);

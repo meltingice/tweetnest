@@ -59,6 +59,7 @@ class Tweetnest {
 	
 	private static function set_runtime_data() {
 		/* Define absolute path to application */
+		define('PATH', self::$config['path']);
 		$fPath = explode("/", rtrim(__FILE__, "/"));
 		array_pop($fPath); array_pop($fPath);
 		$fPath = implode($fPath, "/");
@@ -92,6 +93,8 @@ class Tweetnest {
 			include FULL_INC_PATH.'/class.'.strtolower($class).'.php';
 		} elseif(file_exists(FULL_INC_PATH."/Tweetnest_$class.php")) {
 			include FULL_INC_PATH."/Tweetnest_$class.php";
+		} elseif(file_exists(FULL_INC_PATH."/lib/$class.php")) {
+			include FULL_INC_PATH."/lib/$class.php";
 		} elseif(preg_match("/([A-Za-z0-9]+)_Controller/", $class)) {
 			if(file_exists(FULL_INC_PATH."/controllers/$class.php")) {
 				include FULL_INC_PATH."/controllers/$class.php";
