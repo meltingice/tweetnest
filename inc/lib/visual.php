@@ -63,16 +63,30 @@ class visual {
 		$days   = array(); $max = 0; $total = 0;
 		while($r = $db->fetch($q)){
 			if(!array_key_exists($r['d'], $days)){
-				$days[$r['d']] = array("total" => 0);
+				$days[$r['d']] = array(
+					"total" => 0,
+					"types" => array(
+						1 => array(
+							'count' => 0
+						),
+						2 => array(
+							'count' => 0
+						)
+					)
+				);
 			}
 			$days[$r['d']]['total'] += $r['c'];
-			$days[$r['d']]['types'][$r['type']] = $r['c'];
+			$days[$r['d']]['types'][$r['type']]['count'] = $r['c'];
+			
 			if($days[$r['d']]['total'] > $max){ $max = $days[$r['d']]['total']; }
 			$total += $r['c'];
 		}
 		
 		foreach($days as $i=>$day) {
 			$day['percent'] = round(($day['total'] / $max), 2);
+			$day['types'][1]['percent'] = ($day['types'][1]['count'] / $day['total']);
+			$day['types'][2]['percent'] = ($day['types'][2]['count'] / $day['total']);
+			
 			$days[$i] = $day;
 		}
 		

@@ -8,7 +8,7 @@
 	<link rel="stylesheet" href="<?=PATH?>/styles/streamlined/styles.css.php" type="text/css" /> 
 	<script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.4.2/jquery.min.js"></script> 
 	<script type="text/javascript" src="http://platform.twitter.com/anywhere.js?id=J9CvKf1M1QfBxD7l4dbU9w&amp;v=1"></script> 
-	<script type="text/javascript" src="tweets.js"></script> 
+	<script type="text/javascript" src="<?=PATH?>/tweets.js"></script> 
 </head>
 <body>
 	<div id="container">
