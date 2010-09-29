@@ -14,7 +14,11 @@ class Month_Controller extends Controller {
 		
 		$sidebar_data = array(
 			'months' => $months,
-			'total_tweets' => $total_tweets
+			'total_tweets' => $total_tweets,
+			'active' => array(
+				'year' => Router::$PARAMS[0],
+				'month' => Router::$PARAMS[1]
+			)
 		);
 		
 		$sidebar = $this->render('sidebar', $sidebar_data);

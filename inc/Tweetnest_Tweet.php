@@ -3,32 +3,22 @@
 class Tweet {
 
 	public static function load_index_tweets() {
-		$db = DB::connection();
-		$q = $db->query(
+		return self::load_tweets(
 			"SELECT 
 				`".DTP."tweets`.*
 			FROM `".DTP."tweets`
 			ORDER BY `".DTP."tweets`.`time`
 			DESC LIMIT 25"
 		);
-		
-		$tweets = array();
-		while($data = $db->fetch($q)) {
-			$tweets[] = new Tweet(Util::parse_tweet($data));
-		}
-		
-		return $tweets;
 	}
 	
 	public static function load_month_tweets() {
-		$db = DB::connection();
-		
 		// This data must be numeric because of the router regex
 		// so no need to escape it.
 		$year = Router::$PARAMS[0];
 		$month = Router::$PARAMS[1];
 		
-		$q = $db->query(
+		return self::load_tweets(
 			"SELECT
 				`".DTP."tweets`.*
 			FROM `".DTP."tweets`
@@ -36,6 +26,29 @@ class Tweet {
 				YEAR(FROM_UNIXTIME(`time`" . DB_OFFSET . ")) = '" . $year . "' AND
 				MONTH(FROM_UNIXTIME(`time`" . DB_OFFSET . ")) = '" . $month . "'
 			ORDER BY `".DTP."tweets`.`time` DESC");
+	}
+	
+	public static function load_day_tweets() {
+		// This data must be numeric because of the router regex
+		// so no need to escape it.
+		$year = Router::$PARAMS[0];
+		$month = Router::$PARAMS[1];
+		$day = Router::$PARAMS[2];
+		
+		return self::load_tweets(
+			"SELECT
+				`".DTP."tweets`.*
+			FROM `".DTP."tweets`
+			WHERE
+				YEAR(FROM_UNIXTIME(`time`" . DB_OFFSET . ")) = '$year' AND
+				MONTH(FROM_UNIXTIME(`time`" . DB_OFFSET . ")) = '$month'
+				AND DAY(FROM_UNIXTIME(`time`" . DB_OFFSET . ")) = '$day'
+				ORDER BY `".DTP."tweets`.`time` DESC");
+	}
+	
+	private static function load_tweets($query) {
+		$db = DB::connection();
+		$q = $db->query($query);
 		
 		$tweets = array();
 		while($data = $db->fetch($q)) {

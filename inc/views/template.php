@@ -19,7 +19,7 @@
 				<p><?=$user->location?></p>
 			</div>
 			<div id="info">
-				<p>The below is an off-site archive of <strong><a href="/">all tweets posted by @<?=$user->screenname?></a></strong> ever</p>
+				<p>The below is an off-site archive of <strong><a href="<?=PATH?>">all tweets posted by @<?=$user->screenname?></a></strong> ever</p>
 				<p class="follow"><a href="<?=$user->profile_link?>">Follow me on Twitter</a></p>
 			</div>
 

@@ -4,7 +4,7 @@
 	    <div class="d">
 	    	<? if(array_key_exists($i, $days)): ?>
 	    	<? $day = $days[$i]; ?>
-	    	<a title="<?=$day['total']?> tweets, <?=$day['types'][1]['count']?> replies, <?=$day['types'][2]['count']?> retweets" href="/<?=$year?>/<?=$month?>/<?=$i?>">
+	    	<a title="<?=$day['total']?> tweets, <?=$day['types'][1]['count']?> replies, <?=$day['types'][2]['count']?> retweets" href="<?=PATH?>/<?=$year?>/<?=$month?>/<?=$i?>">
 	    		
 	    		<span class="p" style="height:<?=($day['percent']*250)?>px">
 	    			<span class="n">
@@ -17,8 +17,14 @@
 	    			<span class="rt" style="height:<?=($day['percent'] * 250 * $day['types'][2]['percent'])?>px"></span>
 	    			<? endif; ?>
 	    		</span>
-	    		<span class="m"><?=$i?></span>
 	    		
+	    		<? if(isset($active) && $active == $i): ?>
+	    		<span class="m mm ms">
+	    			<strong><?=$i?></strong>
+	    		</span>
+	    		<? else: ?>
+	    		<span class="m"><?=$i?></span>
+	    		<? endif; ?>
 	    	</a>
 	    	<? else: ?>
 	    		<a href="/<?=$year?>/<?=$month?>/<?=$i?>">
