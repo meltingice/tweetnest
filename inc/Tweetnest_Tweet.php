@@ -102,6 +102,7 @@ class Tweet {
 	}
 	
 	private function format_tweet() {
+		$this->text = Extensions::execute_hook('tweet', $this->text);		
 		return $this->linkifyTweet(htmlspecialchars($this->text));
 	}
 	

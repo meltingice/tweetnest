@@ -19,6 +19,8 @@ class Tweetnest {
 		
 		self::$user = User::load_active_user();
 		
+		Extensions::load_all_extensions();
+		
 		// Run router to determine page to load
 		Router::run();
 	}
