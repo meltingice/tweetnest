@@ -6,6 +6,7 @@
     <? foreach($tweets as $tweet): ?>
     	<div id="tweet-<?=$tweet->tweetid?>" class="tweet <?= $tweet->is_rt ? 'retweet' : '' ?> <?= $tweet->is_reply ? 'reply' : '' ?>">
 	    	<div class="fav" title="A personal favorite"><span>(A personal favorite)</span></div>
+    		<?=Extensions::execute_hook('before_tweet', $tweet->text)?>
     		<p class="text"><?=$tweet->tweet?></p>
     
     		<p class="meta">

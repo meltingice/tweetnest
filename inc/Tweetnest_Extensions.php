@@ -3,8 +3,19 @@ class Extensions {
 	
 	private static $hooks = array();
 	private static $allowed_hooks = array(
-		'tweet'
+		'tweet', 'before_tweet'
 	);
+	
+	// This should be a class variable, but PHP
+	// currently does not allow anonymous functions
+	// to be stored in class variables.
+	private static function defaults() {
+		return array(
+			"before_tweet" => function($data) {
+				return "";
+			}
+		);
+	}
 	
 	public static function load_all_extensions() {
 		if($h = opendir(FULL_PATH.'/extensions/enabled')) {
@@ -19,15 +30,18 @@ class Extensions {
 		}
 	}
 	
-	public static function execute_hook($hook, $data) {
+	public static function execute_hook($hook, $data = "") {
+		$defaults = self::defaults();
 		if(self::hook_registered($hook)) {
 			/* Execute all hooks for this type */
 			foreach(self::$hooks[$hook] as $func) {
 				$return = $func($data);
-				if($return != null) {
+				if($return !== null) {
 					$data = $return;
 				}
 			}
+		} elseif(array_key_exists($hook, $defaults)) {
+			$data = $defaults[$hook]();
 		}
 		
 		return $data;
