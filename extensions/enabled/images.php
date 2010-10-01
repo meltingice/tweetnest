@@ -39,7 +39,7 @@ Extension::action('before_tweet', function($data) {
 	if(count($imgs) > 0){
 		$HTML = "";
 	    foreach($imgs as $link=>$img) {
-	    	$HTML .= '<a class="pic pic-1 hoverin" href="'.$link.'"><img src="'.$img.'" alt=""></a> ';
+	    	$HTML .= '<a target="_blank" class="pic pic-1 hoverin" href="'.$link.'"><img src="'.$img.'" alt=""></a> ';
 	    }
 	    
 	    return $HTML;
