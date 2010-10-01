@@ -21,6 +21,8 @@ class Extensions {
 		if($h = opendir(FULL_PATH.'/extensions/enabled')) {
 			while (false !== ($file = readdir($h))) {
 				if($file == '.' || $file == '..'){ continue; }
+				if(!is_file(FULL_PATH."/extensions/enabled/$file")){ continue; }
+				
 				$file_info = explode('.', $file);
 				$ext = array_pop($file_info);
 				if($ext == 'php') {
