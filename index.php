@@ -1,6 +1,6 @@
 <?php
 	// PONGSOCKET TWEET ARCHIVE
-	// Front page
+	// Loads all pages. Were you expecting to see more?
 	
 	require 'inc/Tweetnest.php';
 	Tweetnest::run();

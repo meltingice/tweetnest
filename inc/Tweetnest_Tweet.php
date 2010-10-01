@@ -146,13 +146,15 @@ class Tweet {
 	
 	public function __get($key) {
 		switch($key) {
-			case 'is_rt' : return array_key_exists('rt', $this->extra);
+			case 'is_reply' : return ($this->type == 1 && $this->extra['in_reply_to_status_id'] != null);
+			case 'is_rt' : return $this->type == 2;
 			case 'tweet' : return $this->format_tweet();
 			case 'link' : return $this->link();
 			case 'tweet_date' : return $this->tweet_date(false);
 			case 'retweet_date' : return $this->tweet_date(true);
 			case 'tweet_source' : return $this->tweet_source(false);
 			case 'retweet_source' : return $this->tweet_source(true);
+			case 'reply_source' : return "http://twitter.com/{$this->extra['in_reply_to_screen_name']}/statuses/{$this->extra['in_reply_to_status_id']}";
 		}
 	}
 	

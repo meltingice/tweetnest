@@ -12,6 +12,8 @@
     			<span class="via">via <?=$tweet->tweet_source?></span>
     			<? if($tweet->is_rt): ?>
     			<span class="rted">(retweeted on <?=$tweet->retweet_date?> <span class="via">via <?=$tweet->retweet_source?></span>)</span>
+    			<? elseif($tweet->is_reply): ?>
+				<a href="<?=$tweet->reply_source?>" class="replyto">in reply to <?=$tweet->extra['in_reply_to_screen_name']?></a>
     			<? endif; ?>
     		</p>
     	</div>
