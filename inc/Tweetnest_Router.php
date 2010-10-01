@@ -52,4 +52,8 @@ class Router {
 		return (self::$PAGE == 'index');
 	}
 	
+	public static function is_favorites() {
+		return (self::$PAGE == 'favorites');
+	}
+	
 }

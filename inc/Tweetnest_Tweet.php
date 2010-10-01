@@ -25,7 +25,8 @@ class Tweet {
 			WHERE
 				YEAR(FROM_UNIXTIME(`time`" . DB_OFFSET . ")) = '" . $year . "' AND
 				MONTH(FROM_UNIXTIME(`time`" . DB_OFFSET . ")) = '" . $month . "'
-			ORDER BY `".DTP."tweets`.`time` DESC");
+			ORDER BY `".DTP."tweets`.`time` DESC"
+		);
 	}
 	
 	public static function load_day_tweets() {
@@ -43,7 +44,32 @@ class Tweet {
 				YEAR(FROM_UNIXTIME(`time`" . DB_OFFSET . ")) = '$year' AND
 				MONTH(FROM_UNIXTIME(`time`" . DB_OFFSET . ")) = '$month'
 				AND DAY(FROM_UNIXTIME(`time`" . DB_OFFSET . ")) = '$day'
-				ORDER BY `".DTP."tweets`.`time` DESC");
+				ORDER BY `".DTP."tweets`.`time` DESC"
+		);
+	}
+	
+	public static function load_favorite_tweets() {
+		$db = DB::connection();
+		
+		$month = false;
+		if(!empty($_GET['m']) && !empty($_GET['y'])){
+			$m = $db->s(ltrim($_GET['m'], "0"));
+			$y = $db->s($_GET['y']);
+			if(is_numeric($m) && $m >= 1 && $m <= 12 && is_numeric($_GET['y']) && $_GET['y'] >= 2000){
+				$month = true;
+				$selectedDate = array("y" => $y, "m" => $m, "d" => 0);
+			}
+		}
+		
+		return self::load_tweets(
+			"SELECT
+				`".DTP."tweets`.*
+			FROM `".DTP."tweets`
+			WHERE
+				`".DTP."tweets`.`favorite` > 0 " .
+				($month ? " AND YEAR(FROM_UNIXTIME(`time`" . DB_OFFSET . ")) = '$y' AND MONTH(FROM_UNIXTIME(`time`" . DB_OFFSET . ")) = '$m'" : "") .
+			"ORDER BY `".DTP."tweets`.`time` DESC"
+		);
 	}
 	
 	private static function load_tweets($query) {

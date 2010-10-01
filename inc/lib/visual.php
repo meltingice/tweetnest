@@ -9,7 +9,8 @@ class visual {
 			SELECT
 				MONTH(FROM_UNIXTIME(`time`" . DB_OFFSET . ")) AS month,
 				YEAR(FROM_UNIXTIME(`time`" . DB_OFFSET . ")) AS year,
-				COUNT(*) AS tweets
+				COUNT(*) AS tweets,
+				favorite
 			FROM `".DTP."tweets`
 			GROUP BY year, month
 			ORDER BY year DESC, month DESC";
@@ -20,6 +21,26 @@ class visual {
 		$months = array(); $max = 0; $total = 0;
 		$amount = $db->num_rows;
 		while($r = $db->fetch($q)){
+			if(Router::is_favorites()) {
+				$query2 = "
+					SELECT
+						MONTH(FROM_UNIXTIME(`time`" . DB_OFFSET . ")) AS month,
+						YEAR(FROM_UNIXTIME(`time`" . DB_OFFSET . ")) AS year,
+						COUNT(*) as count
+					FROM `".DTP."tweets`
+					WHERE
+						favorite = 1
+					GROUP BY year, month
+					HAVING
+						month = '{$r['month']}' AND
+						year = '{$r['year']}'";
+				$result2 = $db->query($query2);
+				if($result2) {
+					$data = $db->fetch($result2);
+					$r['favorites'] = $data['count'];
+				}
+			}
+			
 			$months[] = $r;
 			if($r['tweets'] > $max){ $max = $r['tweets']; }
 			$total += $r['tweets'];
