@@ -5,7 +5,7 @@ class Router {
 	public static $PARAMS = array();
 	private static $routes = array(
 		'index' => '',
-		'sort' => '/^sort\/?$',
+		'sort' => '/^sort\/?$/',
 		'favorites' => '/^favorites\/?$/',
 		'search' => '/^search\/?$/',
 		'month' => '/^([0-9]+)\/([0-9]+)\/?$/',
@@ -30,7 +30,8 @@ class Router {
 			$uri = $_GET['tn_uri'];
 			if($uri == "" || $uri == "/") { return; } // index page
 
-			foreach(array_slice(self::$routes, 1) as $page => $regex) {
+			foreach(self::$routes as $page => $regex) {
+				if($page == 'index'){ continue; }
 				if(preg_match($regex, $uri)) {
 					self::$PAGE = $page;
 					return;

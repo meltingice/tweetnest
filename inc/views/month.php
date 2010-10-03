@@ -12,7 +12,8 @@
     	<div id="tweet-<?=$tweet->tweetid?>" class="tweet <?= $tweet->is_rt ? 'retweet' : '' ?> <?= $tweet->is_reply ? 'reply' : '' ?>">
     		<?=Extensions::execute_hook('before_tweet', $tweet->text)?>
     		<p class="text"><?=$tweet->tweet?></p>
-    
+    		<?=Extensions::execute_hook('after_tweet', $tweet->text)?>
+    		
     		<p class="meta">
     			<a href="<?=$tweet->link?>" class="permalink"><?=$tweet->tweet_date?></a>
     			<span class="via">via <?=$tweet->tweet_source?></span>
