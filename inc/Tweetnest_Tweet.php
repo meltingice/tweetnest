@@ -72,6 +72,47 @@ class Tweet {
 		);
 	}
 	
+	public static function load_search_tweets() {
+		$db = DB::connection();
+		$search = new Search();
+		
+		$month = false;
+		if(!empty($_GET['m']) && !empty($_GET['y'])){
+			$m = $db->s(ltrim($_GET['m'], "0"));
+			$y = $db->s($_GET['y']);
+			if(is_numeric($m) && $m >= 1 && $m <= 12 && is_numeric($_GET['y']) && $_GET['y'] >= 2000){
+				$month = true;
+				$selectedDate = array("y" => $y, "m" => $m, "d" => 0);
+			}
+		}
+		
+		$sort = $_COOKIE['tweet_sort_order'] == "time" ? "time" : "relevance"; // Sorting by time or default order (relevance)
+	
+		$tooShort = (strlen($_GET['q']) < $search->minWordLength || $search->minWordLength > 1 && strlen(trim($_GET['q'], "*")) <= 1);
+		
+		if(!$tooShort){
+			$results = $search->query(
+				$_GET['q'],
+				$sort,
+				($month 
+					? " AND YEAR(FROM_UNIXTIME(`time`" . DB_OFFSET . ")) = '$y' AND MONTH(FROM_UNIXTIME(`time`" . DB_OFFSET . ")) = '$m'"
+					: ""
+				)
+			);
+			
+			$tweets = array();
+			foreach($results as $tweet) {
+				$tweet = new Tweet(Util::parse_tweet($tweet));
+				$tweet->text = Util::highlightQuery($tweet->text, $tweet);
+				$tweets[] = $tweet;
+			}
+
+			return $tweets;
+		}
+		
+		return false;
+	}
+	
 	private static function load_tweets($query) {
 		$db = DB::connection();
 		$q = $db->query($query);
@@ -128,22 +169,8 @@ class Tweet {
 	}
 	
 	private function format_tweet() {
-		$this->text = Extensions::execute_hook('tweet', $this->text);		
-		return $this->linkifyTweet(htmlspecialchars($this->text));
-	}
-	
-	private function _linkifyTweet_link($a, $b, $c, $d){
-		$url = stripslashes($a);
-		$end = stripslashes($d);
-		return "<a class=\"link\" href=\"" . ($b[0] == "w" ? "http://" : "") . str_replace("\"", "&quot;", $url) . "\">" . (strlen($url) > 25 ? substr($url, 0, 24) . "..." : $url) . "</a>" . $end;
-	}
-	
-	private function _linkifyTweet_at($a, $b){
-		return "<span class=\"at\">@</span><a class=\"user\" href=\"http://twitter.com/" . $a . "\">" . $a . "</a>";
-	}
-	
-	private function _linkifyTweet_hashtag($a, $b){
-		return "<a class=\"hashtag\" href=\"http://twitter.com/search?q=%23" . $a . "\">#" . $a . "</a>";
+		$this->text = Extensions::execute_hook('tweet', $this->text);
+		return $this->linkifyTweet($this->text);
 	}
 	
 	private function linkifyTweet($str){
@@ -152,7 +179,7 @@ class Tweet {
 			return "<a class=\"link\" target=\"_blank\" href=\"" . ($url[0] == "w" ? "http://" : "") . 
 				str_replace("\"", "&quot;", $url) . "\">" . 
 				(strlen($url) > 25 ? substr($url, 0, 24) . "..." : $url) . 
-				"</a>";
+				"</a> ";
 		};
 		
 		$at = function($matches) {

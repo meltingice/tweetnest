@@ -1,6 +1,6 @@
 <h1><?=$current_date?></h1> 
 
-<form id="search" action="/search" method="get">
+<form id="search" action="<?=PATH?>/search" method="get">
 	<div><input type="text" name="q" value="" /></div>
 </form> 
 

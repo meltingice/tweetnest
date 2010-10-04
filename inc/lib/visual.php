@@ -5,6 +5,14 @@ class visual {
 	public static function months(&$total_tweets) {
 		$db = DB::connection();
 		
+		if(Router::is_search()) {
+			$search = new Search();
+			$mq = $search->monthsQuery($_GET['q']);
+			while($d = $db->fetch($mq)){
+				$highlightedMonths[$d['y'] . "-" . $d['m']] = $d['c'];
+			}
+		}
+		
 		$query = "
 			SELECT
 				MONTH(FROM_UNIXTIME(`time`" . DB_OFFSET . ")) AS month,
@@ -38,6 +46,10 @@ class visual {
 				if($result2) {
 					$data = $db->fetch($result2);
 					$r['favorites'] = $data['count'];
+				}
+			} elseif(Router::is_search()) {
+				if(isset($highlightedMonths[$r['year']."-".$r['month']])) {
+					$r['found'] = $highlightedMonths[$r['year']."-".$r['month']];
 				}
 			}
 			

@@ -1,11 +1,30 @@
 <h1><?=$title?></h1>
-<form id="search" action="<?=PATH?>/search" method="get"><div><input type="text" name="q" value="" /></div></form>
+<form id="search" action="<?=PATH?>/search" method="get"><div><input type="text" name="q" value="<?=(isset($_GET['q'])) ? $_GET['q'] : '' ?>" /></div></form>
 
 <div id="c">
     <div id="primary">
+    
+    <div id="sorter">
+    	Sort by
+    	<a class="first <?=($mode=='relevance') ? 'selected' : '' ?>" href="<?=PATH?>/sort?order=relevance">
+    	<? if($mode == 'relevance'): ?>
+    	<strong>Relevance</strong>
+    	<? else: ?>
+    	Relevance
+    	<? endif; ?>
+    	</a>
+    	<span> </span>
+    	<a class="last <?=($mode=='time') ? 'selected' : '' ?>" href="<?=PATH?>/sort?order=time">
+    	<? if($mode == 'time'): ?>
+    	<strong>Time</strong>
+    	<? else: ?>
+    	Time
+    	<? endif; ?>
+    	</a>
+    </div>
+
     <? foreach($tweets as $tweet): ?>
     	<div id="tweet-<?=$tweet->tweetid?>" class="tweet <?= $tweet->is_rt ? 'retweet' : '' ?> <?= $tweet->is_reply ? 'reply' : '' ?>">
-	    	<div class="fav" title="A personal favorite"><span>(A personal favorite)</span></div>
     		<?=Extensions::execute_hook('before_tweet', $tweet->text)?>
     		<p class="text"><?=$tweet->tweet?></p>
     		<?=Extensions::execute_hook('after_tweet', $tweet->text)?>

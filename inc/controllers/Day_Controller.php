@@ -35,14 +35,14 @@ class Day_Controller extends Controller {
 			'tweets' => $tweets,
 			'user' => $user,
 			'sidebar' => $sidebar,
-			'current_date' => $this->current_date(),
+			'current_date' => Util::current_date(true),
 			'days' => $days_page
 		);
 		
 		$page = $this->render('month', $page_data);
 		
 		$template_data = array(
-			'page_title' => "Tweets by @{$user->screenname} / ".$this->current_date(),
+			'page_title' => "Tweets by @{$user->screenname} / ".Util::current_date(),
 			'user' => $user, 
 			'content' => $page
 		);
@@ -50,13 +50,4 @@ class Day_Controller extends Controller {
 		echo $this->render('template', $template_data);
 		
 	}
-	
-	private function current_date() {
-		$year = Router::$PARAMS[0];
-		$month = Router::$PARAMS[1];
-		$day = Router::$PARAMS[2];
-		
-		return date("F j\\t\h, Y", mktime(1,0,0,$month,$day,$year));
-	}
-	
 }

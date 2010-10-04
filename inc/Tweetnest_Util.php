@@ -75,6 +75,8 @@ class Util {
 			}
 		}
 		
+		$tweet->text = htmlspecialchars($tweet->text, ENT_NOQUOTES);
+		
 		return $tweet;
 	}
 	
@@ -183,5 +185,49 @@ class Util {
 		if(strtolower(trim($val)) == "true"  || $val === 1){ return true;  }
 		return $val;
 	}
+	
+	public static function current_date($day=false) {
+		$month = $_GET['m'];
+		$year = $_GET['y'];
+		if($day) {
+			$day = Router::$PARAMS[2];
+			return date("F j\\t\h, Y", mktime(1,0,0,$month,$day,$year));
+		}
+		
+		return date("F Y", mktime(1,0,0,$month,1,$year));
+	}
+	
+	public static function highlightQuery($str, $tweet){
+		if(!isset($tweet->word) || (!is_array($tweet->word) && !is_string($tweet->word))){ return $str; }
+		if(!is_array($tweet->word)){
+			$q = array($tweet->word);
+		} else {
+			$q = $tweet->word;
+		}
+		foreach($q as $word){
+			$s = preg_match("/[A-Za-z0-9_]/", $word[0]) ? "\b" : "\B";
+			$e = preg_match("/[A-Za-z0-9_]/", $word[strlen($word)-1]) ? "\b" : "\B";
+			$str = preg_replace(
+				"/" . $s . "(" . preg_quote(htmlspecialchars($word, ENT_NOQUOTES), "/") . ")" . $e . "/i",
+				"<strong class=searchword>$1</strong>",
+				$str
+			);
+		}
+		// Get 'em outta tha links! We can only do it this way because we have reasonable control over allowed tags, etc.
+		$tagsInLinks = "/<a ([^>]*)href=\"([^\"]*)<strong class=searchword>([^\"<]+)<\/strong>([^\"]*)\">/"; $i = 0;
+		while(preg_match($tagsInLinks, $str)){
+			if($i > 20){ break; } // No infinite loops!
+			$str = preg_replace(
+				$tagsInLinks,
+				"<a $1href=\"$2$3$4\">",
+				$str
+			);
+			$i++;
+		}
+		// Adding in the quote marks
+		$str = str_replace("<strong class=searchword>", "<strong class=\"searchword\">", $str);
+		return $str;
+	}
+
 	
 }

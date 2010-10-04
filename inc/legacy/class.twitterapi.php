@@ -79,7 +79,7 @@
 		}
 		
 		public function getUserId($screenname){
-			global $db;
+			$db = DB::connection();
 			$q = $db->query("SELECT * FROM `".DTP."tweetusers` WHERE `screenname` = '" . $db->s($screenname) . "' LIMIT 1");
 			if($db->numRows($q) > 0){
 				$u = $db->fetch($q);
@@ -89,7 +89,7 @@
 		}
 		
 		public function getScreenName($uid){
-			global $db;
+			$db = DB::connection();
 			$q = $db->query("SELECT * FROM `".DTP."tweetusers` WHERE `userid` = '" . $db->s($uid) . "' LIMIT 1");
 			if($db->numRows($q) > 0){
 				$u = $db->fetch($q);
@@ -154,7 +154,7 @@
 		}
 		
 		public function insertQuery($t){
-			global $db;
+			$db = DB::connection();
 			$type = ($t['text'][0] == "@") ? 1 : (preg_match("/RT @\w+/", $t['text']) ? 2 : 0);
 			return "INSERT INTO `".DTP."tweets` (`userid`, `tweetid`, `type`, `time`, `text`, `source`, `extra`, `coordinates`, `geo`, `place`, `contributors`) VALUES ('" . $db->s($t['userid']) . "', '" . $db->s($t['tweetid']) . "', '" . $db->s($type) . "', '" . $db->s($t['time']) . "', '" . $db->s($this->entityDecode($t['text'])) . "', '" . $db->s($t['source']) . "', '" . $db->s(serialize($t['extra'])) . "', '" . $db->s(serialize($t['coordinates'])) . "', '" . $db->s(serialize($t['geo'])) . "', '" . $db->s(serialize($t['place'])) . "', '" . $db->s(serialize($t['contributors'])) . "');";
 		}

@@ -1,5 +1,5 @@
 <h1>Recent tweets</h1>
-<form id="search" action="/search" method="get"><div><input type="text" name="q" value="" /></div></form>
+<form id="search" action="<?=PATH?>/search" method="get"><div><input type="text" name="q" value="" /></div></form>
 
 <div id="c">
     <div id="primary">

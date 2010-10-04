@@ -4,7 +4,8 @@ class Extensions {
 	private static $hooks = array();
 	private static $allowed_hooks = array(
 		'tweet', 'before_tweet',
-		'after_tweet'
+		'after_tweet', 'header',
+		'footer'
 	);
 	
 	// This should be a class variable, but PHP

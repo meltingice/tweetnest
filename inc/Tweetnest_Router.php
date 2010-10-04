@@ -57,4 +57,8 @@ class Router {
 		return (self::$PAGE == 'favorites');
 	}
 	
+	public static function is_search() {
+		return (self::$PAGE == 'search');
+	}
+	
 }

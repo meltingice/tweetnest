@@ -5,7 +5,7 @@
 	// Inspiration from http://www.zez.org/article/articleview/83/
 	// Inspiration from PunBB
 	
-	class TweetNestSearch {
+	class Search {
 		public $minWordLength = 3;
 		
 		protected function stripWhitespace($text){
@@ -21,7 +21,7 @@
 		
 		protected function keywordify($text){
 			// No fancy apostrophes and dashes in keywords
-			$text = strtolower(stupefyRaw($text, true));
+			$text = strtolower(Util::stupefyRaw($text));
 			// Remove any apostrophes which aren't part of words
 			$keywords = substr(preg_replace("((?<=\W)'|'(?=\W))", "", " " . $text . " "), 1, -1);
 			// Remove symbols and multiple whitespace
@@ -30,7 +30,7 @@
 		}
 		
 		public function index($id, $text){
-			global $db;
+			$db = DB::connection();
 			$itext = $this->keywordify($text);
 			
 			$words = explode(" ", $itext);
@@ -58,7 +58,7 @@
 		}
 		
 		public function query($q, $sort = "relevance", $extraWhere = ""){
-			global $db;
+			$db = DB::connection();
 			$stf   = 0.7; // Search words can at most be present in 70% of the tweets
 			if(strlen($q) < $this->minWordLength){ return false; } // <3 ;)
 			

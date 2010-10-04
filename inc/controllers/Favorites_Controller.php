@@ -20,7 +20,7 @@ class Favorites_Controller extends Controller {
 		$sidebar = $this->render('sidebar', $sidebar_data);
 		
 		if(isset($_GET['y']) && isset($_GET['m'])) {
-			$title = "Favorite tweets from " . $this->current_date();
+			$title = "Favorite tweets from " . Util::current_date();
 		} else {
 			$title = 'Favorite tweets';
 		}
@@ -42,12 +42,4 @@ class Favorites_Controller extends Controller {
 		
 		echo $this->render('template', $template_data);
 	}
-	
-	private function current_date() {
-		$month = $_GET['m'];
-		$year = $_GET['y'];
-		
-		return date("F Y", mktime(1,0,0,$month,1,$year));
-	}
-	
 }
