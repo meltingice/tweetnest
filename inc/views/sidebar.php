@@ -17,6 +17,10 @@
 		</li></a>
 	<? endif; ?>
 	
+	<? if(Router::is_search() && isset($_GET['m']) && isset($_GET['y'])): ?>
+	<li class="search"><a href="<?=PATH?>/search?q=<?=$_GET['q']?>"><span class="m">All results</span></a></li>
+	<? endif; ?>
+	
 	<? if(Router::is_favorites() && isset($_GET['m']) && isset($_GET['y'])): ?>
 	<li class="fav"><a href="<?=PATH?>/favorites"><span class="m">	All favorites</span></a></li>
 	<? elseif(!Router::is_favorites()): ?>
