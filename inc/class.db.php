@@ -21,7 +21,7 @@
 			return $INSTANCE;
 		}
 		
-		private function __construct($type, $config){
+		public function __construct($type, $config){
 			if(in_array(strtolower(trim($type)), array("mysql" /* more to be added later */))){
 				$this->type = strtolower(trim($type));
 				if(!empty($config['hostname']) && !empty($config['username']) && !empty($config['password']) && !empty($config['database'])){

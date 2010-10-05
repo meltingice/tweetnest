@@ -78,7 +78,7 @@
 	// Prerequisites and pre-checks
 	if(!empty($config['twitter_screenname'])){ $e[] = "<strong>Your Tweet Nest has already been set up.</strong> If you wish to change settings, open <code>config.php</code> and change values using a text editor. Alternatively, replace it with the default empty <code>config.php</code> and reload this page."; } // Config already defined!
 	if(!function_exists("json_decode")){ $e[] = "Your PHP version <strong>doesn&#8217;t seem to support JSON decoding</strong>. This functionality is required to retrieve tweets and is included in the core of PHP 5.2 and above. However, you can also install the <a href=\"http://pecl.php.net/package/json\">JSON PECL module</a> instead, if you&#8217;re using PHP 5.1."; }
-	if(version_compare(PHP_VERSION, "5.1.0", "<")){ $e[] = "<strong>A PHP version of 5.1 or above is required.</strong> Your current PHP version is " . PHP_VERSION . ". You need to upgrade" . (version_compare(PHP_VERSION, "5.0.0", "<") ? " or turn PHP 5 on if you have a server that requires you to do that" : " your PHP installation") . "."; }
+	if(version_compare(PHP_VERSION, "5.3.0", "<")){ $e[] = "<strong>A PHP version of 5.3 or above is required.</strong> Your current PHP version is " . PHP_VERSION . ". You need to upgrade" . (version_compare(PHP_VERSION, "5.0.0", "<") ? " or turn PHP 5 on if you have a server that requires you to do that" : " your PHP installation") . "."; }
 	if(function_exists("apache_get_modules") && !in_array("mod_rewrite", apache_get_modules())){ $e[] = "Could not detect the <code>mod_rewrite</code> module in your Apache installation. <strong>This module is required.</strong>"; }
 	clearstatcache();
 	if(!is_writable("inc/config.php")){ $e[] = "Your <code>config.php</code> file is not writable by the server. Please make sure it is before proceeding, then reload this page. Often, this is done through giving every system user the write privileges on that file through FTP."; }
@@ -629,12 +629,13 @@ INSTALL LOG: <?php var_dump($log); ?>
 				<div class="field"><input type="checkbox" class="checkbox" name="follow_me_button" id="follow_me_button" checked="checked" /></div>
 				<div class="what">Display a &#8220;Follow me on Twitter&#8221; button on your Tweet Nest page?</div>
 			</div>
+			<!--
 			<div class="input lastinput">
 				<label for="smartypants">SmartyPants</label>
 				<div class="field"><input type="checkbox" class="checkbox" name="smartypants" id="smartypants" checked="checked" /></div>
 				<div class="what">Use <a href="http://daringfireball.net/projects/smartypants/" target="_blank">SmartyPants</a> to perfect punctuation inside tweets? Changes all "straight quotes" to &#8220;curly quotes&#8221; and more.</div>
 			</div>
-			
+			-->
 			<h2>@Anywhere integration</h2>
 			<div class="input lastinput">
 				<label for="anywhere_apikey">@Anywhere API key</label>

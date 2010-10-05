@@ -53,6 +53,10 @@ class Tweetnest {
 	private static function load_config() {
 		include dirname(__FILE__).'/config.php';
 		self::$config = $config;
+		
+		if(isset(self::$config['twitter_screenname'])) {
+			header('Location: setup.php'); exit;
+		}
 	}
 	
 	private static function init() {
